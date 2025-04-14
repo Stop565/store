@@ -1,7 +1,7 @@
 import express from "express";
 import config from "dotenv/config";
 import sequelize from "./database.js";
-
+import * as models from "./models/models.js";
 const PORT = process.env.PORT || 3501;
 
 const app = express();
