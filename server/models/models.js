@@ -62,6 +62,7 @@ const info = sequelize.define(
 
 const sale = sequelize.define("sale", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  percent_sale: { type: DataTypes.INTEGER, allowNull: false },
 });
 
 product.hasMany(img, { as: "img" });
