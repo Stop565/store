@@ -1,6 +1,6 @@
-class adminController {
-  async login() {}
+class AdminController {
+  async login(req, res) {}
 
-  async check() {}
+  async check(req, res) {}
 }
-export default new adminController();
+export default new AdminController();

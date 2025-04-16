@@ -1,10 +1,13 @@
-class productController {
-  async getAll() {}
+class ProductController {
+  async getAll(req, res) {
+    console.log("aaaaa");
+    res.json("ok");
+  }
 
-  async createProduct() {}
+  async createProduct(req, res) {}
 
-  async getOneProduct() {}
+  async getOneProduct(req, res) {}
 
-  async deleteProduct() {}
+  async deleteProduct(req, res) {}
 }
-export default new productController();
+export default new ProductController();

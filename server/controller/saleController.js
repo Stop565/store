@@ -1,4 +1,4 @@
-class saleController {
+class SaleController {
   async getAll() {}
 
   async addSale() {}
@@ -7,4 +7,4 @@ class saleController {
 
   async deleteOneSale() {}
 }
-export default new saleController();
+export default new SaleController();

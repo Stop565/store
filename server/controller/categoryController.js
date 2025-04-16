@@ -1,8 +1,8 @@
-class categoryController {
-  async getAll() {}
+class CategoryController {
+  async getAll(req, res) {}
 
-  async createCategory() {}
+  async createCategory(req, res) {}
 
-  async deleteCategory() {}
+  async deleteCategory(req, res) {}
 }
-export default new categoryController();
+export default new CategoryController();
