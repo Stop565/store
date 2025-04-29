@@ -1,10 +1,48 @@
+import * as uuid from "uuid";
+import * as path from "path";
+import { Product, Img, Info } from "../models/models.js";
+import ApiError from "../error/ApiError.js";
+
 class ProductController {
   async getAll(req, res) {
     console.log("aaaaa");
     res.json("ok");
   }
 
-  async createProduct(req, res) {}
+  async createProduct(req, res, next) {
+    try {
+      let { name, description, price, categoryId, info, sale, percent_sale } = req.body;
+      const { img } = req.files;
+
+      const product = await Product.create({ name, description, price, categoryId, sale, percent_sale });
+
+      if (img) {
+        let fileName = uuid.v4() + ".jpg";
+        img.mv(path.resolve("static", fileName));
+        let productImg = await Img.create({
+          productId: product.id,
+          img_name: fileName,
+        });
+      }
+
+      if (info) {
+        //[{"title": "a", "description":"2"},{"title": "b", "description":"3"} ]
+        info = JSON.parse(info);
+        info.forEach((i) => {
+          Info.create({
+            title: i.title,
+            desc_info: i.description,
+            productId: product.id,
+          });
+        });
+      }
+
+      return res.json(product);
+    } catch (e) {
+      console.log(e);
+      return res.status(403).json({ message: "Щось не так. Перевірте введені дані" });
+    }
+  }
 
   async getOneProduct(req, res) {}
 

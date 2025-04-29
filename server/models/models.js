@@ -1,7 +1,7 @@
 import sequelize from "../database.js";
 import { DataTypes } from "sequelize";
 
-const admin = sequelize.define(
+const Admin = sequelize.define(
   "admin",
   {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
@@ -13,20 +13,22 @@ const admin = sequelize.define(
   }
 );
 
-const product = sequelize.define(
+const Product = sequelize.define(
   "product",
   {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     name: { type: DataTypes.STRING, unique: true, allowNull: false },
     price: { type: DataTypes.DECIMAL(10, 2), allowNull: true },
     description: { type: DataTypes.TEXT, unique: false, allowNull: true },
+    sale: { type: DataTypes.BOOLEAN, defaultValue: false },
+    percent_sale: { type: DataTypes.INTEGER, defaultValue: 0 },
   },
   {
     timestamps: false,
   }
 );
 
-const category = sequelize.define(
+const Category = sequelize.define(
   "category",
   {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
@@ -37,7 +39,7 @@ const category = sequelize.define(
   }
 );
 
-const img = sequelize.define(
+const Img = sequelize.define(
   "img",
   {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
@@ -48,7 +50,7 @@ const img = sequelize.define(
   }
 );
 
-const info = sequelize.define(
+const Info = sequelize.define(
   "info",
   {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
@@ -60,21 +62,13 @@ const info = sequelize.define(
   }
 );
 
-const sale = sequelize.define("sale", {
-  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  percent_sale: { type: DataTypes.INTEGER, allowNull: false },
-});
+Product.hasMany(Img, { as: "img" });
+Img.belongsTo(Product);
 
-product.hasMany(img, { as: "img" });
-img.belongsTo(product);
+Product.hasMany(Info, { as: "info" });
+Info.belongsTo(Product);
 
-product.hasMany(info, { as: "info" });
-info.belongsTo(product);
+Category.hasMany(Product);
+Product.belongsTo(Category);
 
-category.hasMany(product);
-product.belongsTo(category);
-
-sale.hasOne(product);
-sale.belongsTo(product);
-
-export { admin, product, category, img, info, sale };
+export { Admin, Product, Category, Img, Info };

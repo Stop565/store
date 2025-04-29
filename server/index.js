@@ -4,11 +4,22 @@ import sequelize from "./database.js";
 import * as models from "./models/models.js";
 import cors from "cors";
 import router from "./routes/index.js";
+import errorMiddle from "./middleware/ErrorHandlingMiddleware.js";
+import fileUpload from "express-fileupload";
+import * as path from "path";
+
 const PORT = process.env.PORT || 3501;
 
 const app = express();
-app.use(cors());
 app.use(express.json());
+app.use(cors());
+
+app.use(fileUpload({}));
+app.use(express.static(path.resolve("static")));
+
+// Обробка помилок(middleware)
+app.use(errorMiddle);
+
 app.use("/api", router);
 
 /*

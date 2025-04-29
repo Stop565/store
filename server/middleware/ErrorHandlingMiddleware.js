@@ -1,4 +1,4 @@
-import ApiError from "./error/ApiError.js";
+import ApiError from "../error/ApiError.js";
 
 const errorMiddle = function (error, req, res, next) {
   if (error instanceof ApiError) {
