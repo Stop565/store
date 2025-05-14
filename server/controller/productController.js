@@ -5,8 +5,28 @@ import ApiError from "../error/ApiError.js";
 
 class ProductController {
   async getAll(req, res) {
-    console.log("aaaaa");
-    res.json("ok");
+    let { categoryId, limit, page } = req.query;
+    page = page || 1;
+    limit = limit || 15;
+    let offset = page * limit - limit;
+    let products;
+
+    console.log(categoryId);
+
+    if (!categoryId) {
+      products = await Product.findAndCountAll({ limit, offset, include: [{ model: Img, as: "img" }] });
+    }
+
+    if (categoryId) {
+      products = await Product.findAndCountAll({
+        where: { categoryId },
+        limit,
+        offset,
+        include: [{ model: Img, as: "img" }],
+      });
+    }
+
+    res.json(products);
   }
 
   async createProduct(req, res, next) {
